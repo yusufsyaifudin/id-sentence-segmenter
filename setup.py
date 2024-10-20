@@ -11,9 +11,9 @@ if __name__ == "__main__":
         url="https://github.com/yusufsyaifudin/id-sentence-segmenter",
         packages=find_packages(
             where="idsentsegmenter",
-            include=["utils*", "res*"],
+            include=["idsentsegmenter", "idsentsegmenter.res", "idsentsegmenter.utils"],
         ),
-        package_dir={"": "idsentsegmenter"},
+        package_dir={"idsentsegmenter": "idsentsegmenter"},
         package_data={"idsentsegmenter/res/lexicon": ["*.txt"], "idsentsegmenter/res/wordlists": ["*.txt"]},
         include_package_data=True,
         classifiers=[
