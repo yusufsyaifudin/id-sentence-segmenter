@@ -7,6 +7,12 @@ Forked version from https://github.com/yudanta/id-sentence-segmenter with follow
 
 Indonesian Rule-Based Sentence Segmenter
 
+To install this package, you can use pip or Poetry, but I recommend using Poetry:
+
+```
+poetry add git+ssh://git@github.com:yusufsyaifudin/id-sentence-segmenter.git#0.0.1
+```
+
 Simple Indonesian Sentence Segmentation script with rule-based approach 
 
 import module
