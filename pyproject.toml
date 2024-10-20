@@ -157,11 +157,9 @@ test = ["coverage"]
 
 [tool.setuptools.packages.find]
 where = ["idsentsegmenter"]
-include = ["idsentsegmenter", "idsentsegmenter.res", "idsentsegmenter.utils"]  # alternatively: `exclude = ["additional*"]`
 namespaces = false
 
 # If there are data files included in your packages that need to be
 # installed, specify them here.
 [tool.setuptools.package-data]
-lexicon = ["*.txt"]
-wordlists = ["*.txt"]
+idsentsegmenter = ["*"]

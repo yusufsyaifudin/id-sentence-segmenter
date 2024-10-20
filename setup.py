@@ -9,12 +9,8 @@ if __name__ == "__main__":
         author_email='yusuf.syaifudin@gmail.com',
         description="A distributed unique ID generator inspired by Twitter's Snowflake.",
         url="https://github.com/yusufsyaifudin/id-sentence-segmenter",
-        packages=find_packages(
-            where="idsentsegmenter",
-            include=["idsentsegmenter", "idsentsegmenter.res", "idsentsegmenter.utils"],
-        ),
-        package_dir={"idsentsegmenter": "idsentsegmenter"},
-        package_data={"idsentsegmenter/res/lexicon": ["*.txt"], "idsentsegmenter/res/wordlists": ["*.txt"]},
+        packages=find_packages(),
+        package_data={"idsentsegmenter": ["*"]},
         include_package_data=True,
         classifiers=[
             "Development Status :: 4 - Beta",
