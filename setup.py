@@ -8,7 +8,7 @@ if __name__ == "__main__":
         author='Yusuf Syaifudin',
         author_email='yusuf.syaifudin@gmail.com',
         description="A distributed unique ID generator inspired by Twitter's Snowflake.",
-        url="https://github.com/hjpotter92/sonyflake-py",
+        url="https://github.com/yusufsyaifudin/id-sentence-segmenter",
         packages=find_packages(),
         package_data={"idsentsegmenter/res/lexicon": ["*.txt"], "idsentsegmenter/res/wordlists": ["*.txt"]},
         include_package_data=True,
