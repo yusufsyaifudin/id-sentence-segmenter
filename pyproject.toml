@@ -156,7 +156,7 @@ test = ["coverage"]
 [tool.setuptools]
 
 [tool.setuptools.packages.find]
-where = ["idsentsegmenter"]
+where = ["*"]
 namespaces = false
 
 # If there are data files included in your packages that need to be
