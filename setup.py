@@ -10,7 +10,7 @@ if __name__ == "__main__":
         description="A distributed unique ID generator inspired by Twitter's Snowflake.",
         url="https://github.com/hjpotter92/sonyflake-py",
         packages=find_packages(),
-        package_data={"id-sentence-segmenter": ["res/lexicon/*.txt", "res/wordlists/*.txt"]},
+        package_data={"idsentsegmenter/res/lexicon": ["*.txt"], "idsentsegmenter/res/wordlists": ["*.txt"]},
         include_package_data=True,
         classifiers=[
             "Development Status :: 4 - Beta",
