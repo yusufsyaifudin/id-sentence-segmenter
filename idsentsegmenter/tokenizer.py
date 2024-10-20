@@ -1,23 +1,19 @@
 #!/usr/bin/env python
 
-import sys
-from os import path
+
 
 import string
+from typing import List
+from idsentsegmenter.utils.dict_abbreviations import ABBREVIATIONS_DICT
+from idsentsegmenter.utils.dict_tld import TLD_DICT
 
-app_path = path.dirname(path.dirname(path.abspath(__file__)))
-sys.path.append(app_path)
+from idsentsegmenter.utils.dict_tokens import END_OF_SENTENCE_CHARS_TOKEN
+from idsentsegmenter.utils.dict_tokens import NOT_END_OF_SENTENCE
 
-from idsentsegmenter.utils.tokens import END_OF_SENTENCE_CHARS_TOKEN
-from idsentsegmenter.utils.tokens import PUNCTUATION_CHARS_TOKEN
-from idsentsegmenter.utils.tokens import NOT_END_OF_SENTENCE
-from idsentsegmenter.utils.tokens import ALPHANUMERIC_CHARS
-from idsentsegmenter.utils.tokens import NUMERIC_CHARS
-
-from idsentsegmenter.utils.char_analyzer import CharAnalyzer, GuessTokens
-
-ABBREVIATIONS_PATH = path.join(app_path, "idsentsegmenter/res/wordlists/abbreviations.txt")
-TLD_PATH = path.join(app_path, "idsentsegmenter/res/wordlists/tld.txt")
+from idsentsegmenter.char_analyzer import CharAnalyzer
+from idsentsegmenter.char_analyzer import is_abbreviation
+from idsentsegmenter.char_analyzer import is_numerical_value
+from idsentsegmenter.char_analyzer import is_word_abbr
 
 
 class Tokenizer:
@@ -25,100 +21,82 @@ class Tokenizer:
         self.sentence = sentence
         self.words = self.sentence.split()
 
-        self.tokens = []
-        self.abbreviations_dict = []
-        self.tld_dict = []
 
-        with open(ABBREVIATIONS_PATH, "r") as f:
-            abr_word = f.read().splitlines(True)
-            for abbr in abr_word:
-                self.abbreviations_dict.append(abbr.rstrip("\n"))
+        self.abbreviations_dict = ABBREVIATIONS_DICT
+        self.tld_dict = TLD_DICT
 
-        with open(TLD_PATH, "r") as f:
-            tld_word = f.read().splitlines(True)
-            for tld in tld_word:
-                self.tld_dict.append(tld.strip())
+    def get_tokens(self) -> List[str]:
+        tokens: List[str] = []
+        for word_index in range(0, len(self.words)):
+            # Current word is dot (.) but the last word is not end of sentence token.
+            if "." in self.words[word_index] and self.words[word_index][-1] not in END_OF_SENTENCE_CHARS_TOKEN:
+                split_item = self.words[word_index].split(".")
+                if len(split_item) != 2:
+                    end_list: str = split_item[-1]
+                    start_list: str = ".".join(split_item[:-1])
 
-        pass
+                    split_item: list[str] = [start_list, end_list]
 
-    def get_tokens(self):
-        self.parseToken()
-        return self.tokens
-
-    def parseToken(self):
-        for x in range(0, len(self.words)):
-            if (
-                "." in self.words[x]
-                and self.words[x][-1] not in END_OF_SENTENCE_CHARS_TOKEN
-            ):
-                splitItem = self.words[x].split(".")
-                if len(splitItem) != 2:
-                    endlist = splitItem[-1]
-                    startlist = ".".join(splitItem[:-1])
-
-                    splitItem = [startlist, endlist]
-
-                # test tld
-                str_item_1 = splitItem[1].translate(
+                # check whether this word is TLD or not (test tld)
+                str_item_1: str = split_item[1].translate(
                     str.maketrans("", "", string.punctuation)
                 )
+
                 str_item_1 = "".join([".", str_item_1.lower()])
 
+                # If TLD, then append as token and continue. Otherwise, check if it is the last word or not.
                 if str_item_1 in self.tld_dict:
-                    self.tokens.append(self.words[x])
+                    tokens.append(self.words[word_index])
                     continue
 
-            if x == (len(self.words) - 1):
-                if self.words[x][-1] in END_OF_SENTENCE_CHARS_TOKEN:
-                    if GuessTokens().isWordAbbr(self.words[x][:-1].lower()):
-                        self.tokens.append(self.words[x])
-                    else:
-                        charAnalyzer = CharAnalyzer(self.words[x][:-1]).token_words()
-                        if len(charAnalyzer) > 1:
-                            numeric = GuessTokens(charAnalyzer).isNumericalValue()
-                            if numeric:
-                                if "".join(charAnalyzer) != "":
-                                    self.tokens.append("".join(charAnalyzer))
-                            else:
-                                abbreviation = GuessTokens(
-                                    charAnalyzer
-                                ).isAbbreviation()
-                                if abbreviation:
-                                    if "".join(charAnalyzer) != "":
-                                        self.tokens.append("".join(charAnalyzer))
-                                else:
-                                    for i in charAnalyzer:
-                                        self.tokens.append(i)
-
-                        else:
-                            if "".join(charAnalyzer) != "":
-                                self.tokens.append("".join(charAnalyzer))
-
-                        self.tokens.append(self.words[x][-1])
-
-            else:
-                charAnalyzer = CharAnalyzer(self.words[x]).token_words()
-                if len(charAnalyzer) > 1:
-                    numeric = GuessTokens(charAnalyzer).isNumericalValue()
-                    if numeric:
-                        if "".join(charAnalyzer) != "":
-                            self.tokens.append("".join(charAnalyzer))
-                    else:
-                        abbreviation = GuessTokens(charAnalyzer).isAbbreviation()
-                        if abbreviation:
-                            if charAnalyzer[-1] in NOT_END_OF_SENTENCE:
-                                self.tokens.append("".join(charAnalyzer[:-1]))
-                                self.tokens.append("".join(charAnalyzer[-1]))
-                            else:
-                                self.tokens.append("".join(charAnalyzer))
-
-                        else:
-                            for i in charAnalyzer:
-                                self.tokens.append(i)
-
+            # If current word is the
+            # last word of sentences is a token that exist on end of sentence token list.
+            if word_index == (len(self.words) - 1) and self.words[word_index][-1] in END_OF_SENTENCE_CHARS_TOKEN:
+                if is_word_abbr(self.words[word_index][:-1].lower()):
+                    tokens.append(self.words[word_index])
                 else:
-                    if "".join(charAnalyzer) != "":
-                        self.tokens.append("".join(charAnalyzer))
+                    char_analyzer = CharAnalyzer(self.words[word_index][:-1]).token_words()
+                    if len(char_analyzer) > 1:
+                        is_numeric: bool = is_numerical_value()
+                        if is_numeric:
+                            if "".join(char_analyzer) != "":
+                                tokens.append("".join(char_analyzer))
+                        else:
+                            abbreviation = is_abbreviation()
+                            if abbreviation:
+                                if "".join(char_analyzer) != "":
+                                    tokens.append("".join(char_analyzer))
+                            else:
+                                for i in char_analyzer:
+                                    tokens.append(i)
+                    else:
+                        if "".join(char_analyzer) != "":
+                            tokens.append("".join(char_analyzer))
+
+                    tokens.append(self.words[word_index][-1])
+                continue
+
+            char_analyzer: List[str] = CharAnalyzer(word=self.words[word_index]).token_words()
+            if len(char_analyzer) > 1:
+                is_numeric: bool = is_numerical_value(tokens=char_analyzer)
+                if is_numeric and "".join(char_analyzer) != "":
+                    tokens.append("".join(char_analyzer))
+                else:
+                    abbreviation = is_abbreviation(tokens=char_analyzer)
+                    if abbreviation:
+                        if char_analyzer[-1] in NOT_END_OF_SENTENCE:
+                            tokens.append("".join(char_analyzer[:-1]))
+                            tokens.append("".join(char_analyzer[-1]))
+                        else:
+                            tokens.append("".join(char_analyzer))
+                    else:
+                        for i in char_analyzer:
+                            tokens.append(i)
+
+            elif "".join(char_analyzer) != "":
+                tokens.append("".join(char_analyzer))
+
+        return tokens
 
 
 # test
