@@ -15,7 +15,7 @@ print("-" * 82)
 sentence_segmenter = SentenceSegmentation()
 
 # parse text to sentences 
-sentences = sentence_segmenter.get_sentences(news_content)
+sentences = sentence_segmenter.get_sentences(document=news_content, paragraph_split="\n")
 
 print("news sentences: ")
 # print sentences from previous sentence segmentation process

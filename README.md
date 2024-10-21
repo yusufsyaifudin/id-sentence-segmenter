@@ -4,6 +4,7 @@ Forked version from https://github.com/yudanta/id-sentence-segmenter with follow
 
 * [x] Better code with consistent typing and logic (not over-used `self`, only used when needed).
 * [x] No loading files anymore, just use the embedded constants (Python doesn't have constant, so actually it just variable).
+* [x] Add capability to split document by certain character (e.g. new lines) if user can ensure that the line breaks means new paragraph.
 
 Indonesian Rule-Based Sentence Segmenter
 

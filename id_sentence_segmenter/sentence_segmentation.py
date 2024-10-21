@@ -2,7 +2,7 @@
 
 import re
 import string
-from typing import List
+from typing import List, Optional
 
 from id_sentence_segmenter.utils.dict_abbreviations import ABBREVIATIONS_DICT
 from id_sentence_segmenter.utils.dict_tld import TLD_DICT
@@ -19,7 +19,17 @@ class SentenceSegmentation:
         self.abbreviations_dict = ABBREVIATIONS_DICT
         self.tld_dict = TLD_DICT
 
-    def get_sentences(self, document=""):
+    def get_sentences(self, document: str, paragraph_split: Optional[str] = "\n") -> List[str]:
+        sentences: List[str] = []
+        if paragraph_split:
+            for paragraph in document.split(paragraph_split):
+                paragraph = paragraph.strip()
+                sentences.extend(self._get_sentences(document=paragraph))
+        else:
+            sentences.extend(self._get_sentences(document=document))
+        return sentences
+
+    def _get_sentences(self, document:str):
         # remove \n\t
         document = re.sub(pattern=r'\s+', repl=" ", string=document.strip())
 
@@ -44,10 +54,10 @@ class SentenceSegmentation:
 
                 # merge
                 if len(split_item) != 2:
-                    endlist = split_item[-1]
-                    startlist = ".".join(split_item[:-1])
+                    end_list = split_item[-1]
+                    start_list = ".".join(split_item[:-1])
 
-                    split_item = [startlist, endlist]
+                    split_item = [start_list, end_list]
 
                 # print(splitItem)
 
