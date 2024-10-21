@@ -1879,4 +1879,6 @@ ABBREVIATIONS_DICT = [
     "mt",
     "m",
     "muh",
+
+    "hr",  # HR sometimes refer to Hadis Riwayat, written as 'HR. Muslim' or 'HR. Bukhari'
 ]
