@@ -2,12 +2,12 @@
 import copy
 from typing import List
 
-from idsentsegmenter.utils.dict_tokens import SHOULD_SPLIT_PUNCTUATION_CHARS
-from idsentsegmenter.utils.dict_tokens import ALPHANUMERIC_CHARS
-from idsentsegmenter.utils.dict_tokens import NUMERIC_CHARS
+from id_sentence_segmenter.utils.dict_tokens import SHOULD_SPLIT_PUNCTUATION_CHARS
+from id_sentence_segmenter.utils.dict_tokens import ALPHANUMERIC_CHARS
+from id_sentence_segmenter.utils.dict_tokens import NUMERIC_CHARS
 
-from idsentsegmenter.utils.dict_abbreviations import ABBREVIATIONS_DICT
-from idsentsegmenter.utils.dict_tld import TLD_DICT
+from id_sentence_segmenter.utils.dict_abbreviations import ABBREVIATIONS_DICT
+from id_sentence_segmenter.utils.dict_tld import TLD_DICT
 
 
 class CharAnalyzer:

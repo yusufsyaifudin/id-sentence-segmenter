@@ -4,16 +4,16 @@
 
 import string
 from typing import List
-from idsentsegmenter.utils.dict_abbreviations import ABBREVIATIONS_DICT
-from idsentsegmenter.utils.dict_tld import TLD_DICT
+from id_sentence_segmenter.utils.dict_abbreviations import ABBREVIATIONS_DICT
+from id_sentence_segmenter.utils.dict_tld import TLD_DICT
 
-from idsentsegmenter.utils.dict_tokens import END_OF_SENTENCE_CHARS_TOKEN
-from idsentsegmenter.utils.dict_tokens import NOT_END_OF_SENTENCE
+from id_sentence_segmenter.utils.dict_tokens import END_OF_SENTENCE_CHARS_TOKEN
+from id_sentence_segmenter.utils.dict_tokens import NOT_END_OF_SENTENCE
 
-from idsentsegmenter.char_analyzer import CharAnalyzer
-from idsentsegmenter.char_analyzer import is_abbreviation
-from idsentsegmenter.char_analyzer import is_numerical_value
-from idsentsegmenter.char_analyzer import is_word_abbr
+from id_sentence_segmenter.char_analyzer import CharAnalyzer
+from id_sentence_segmenter.char_analyzer import is_abbreviation
+from id_sentence_segmenter.char_analyzer import is_numerical_value
+from id_sentence_segmenter.char_analyzer import is_word_abbr
 
 
 class Tokenizer:

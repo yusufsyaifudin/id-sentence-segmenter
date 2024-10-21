@@ -17,7 +17,7 @@ Simple Indonesian Sentence Segmentation script with rule-based approach
 
 import module
 ```
-from idsentsegmenter.sentence_segmentation import SentenceSegmentation
+from id_sentence_segmenter.sentence_segmentation import SentenceSegmentation
 ```
 
 get sentences from text 

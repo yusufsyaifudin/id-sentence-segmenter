@@ -1,5 +1,5 @@
 # import sentence segmentation class 
-from idsentsegmenter.sentence_segmentation import SentenceSegmentation
+from id_sentence_segmenter.sentence_segmentation import SentenceSegmentation
 
 news_content: str
 # open sample news content 
