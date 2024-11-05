@@ -1882,4 +1882,5 @@ ABBREVIATIONS_DICT = [
 
     "[hr",  # HR sometimes refer to Hadis Riwayat, written as '[HR. Muslim]' or '[HR. Bukhari]'
     "(hr",  # HR sometimes refer to Hadis Riwayat, written as '(HR. Muslim)' or '(HR. Bukhari)'
+    "kha",  # KHA sometimes refer to Kiai Haji, written as 'KHA. Ahmad Dahlan'
 ]
