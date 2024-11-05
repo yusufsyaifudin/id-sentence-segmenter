@@ -11,7 +11,7 @@ Indonesian Rule-Based Sentence Segmenter
 To install this package, you can use pip or Poetry, but I recommend using Poetry:
 
 ```
-poetry add git+ssh://git@github.com:yusufsyaifudin/id-sentence-segmenter.git#0.0.2
+poetry add git+ssh://git@github.com:yusufsyaifudin/id-sentence-segmenter.git#0.0.3
 ```
 
 Simple Indonesian Sentence Segmentation script with rule-based approach 
